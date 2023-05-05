@@ -1,28 +1,35 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const user = require('./user.controller')
 const app = express()
+const Publication = require('./publication.controller')
+const { Auth,isAuthenticated } = require('./auth.controller')
 const port = 3000
 
-	app.use(express.json())
-	mongoose.connect('mongodb+srv://ariass:43354316@cluster0.resfzpb.mongodb.net/blog?retryWrites=true&w=majority')
-	
-	
-	app.get('/users',user.list)               //info
-	app.post('/users',user.create)             //create user
-	app.get('/users/:id',user.get)             // bucar en la lista un elemento
-	app.put('/users/:id',user.update) 
-	app.patch('/users/:id',user.update)               //actualizacion 
-	app.delete('/users/:id',user.destroy)             //borar				
-	
-	app.use(express.static('client'))
-	app.get('/', function(req, res) {
-    res.sendFile('index.html', { root: __dirname });
-   });
 
+mongoose.connect('mongodb+srv://ariass:43354316@cluster0.resfzpb.mongodb.net/blog?retryWrites=true&w=majority')
+app.use(express.json())
+
+app.get('/publications',isAuthenticated,Publication.list)
+app.post('/publications',isAuthenticated, Publication.create)
+app.put('/publications/:id',isAuthenticated, Publication.update)
+app.patch('/publications/:id',isAuthenticated, Publication.update)
+app.delete('/publications/:id',isAuthenticated, Publication.destroy)
+
+app.post('/login', Auth.login)
+app.post('/register', Auth.register)
+
+
+app.use(express.static('client'))
+
+app.get('/', (req, res) => {
+	res.sendFile(`${__dirname}/index.html`)
+})
 	app.get('*',(req,res) => {
 		res.status(404).send('wrong route')
-	})
+})
 	app.listen(port, () => {
 		console.log('api start')                  //node.apijs
-	})
+})  
+
+
+
