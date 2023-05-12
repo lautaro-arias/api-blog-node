@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const Users = mongoose.model('User' , {
 	name: { type: String, required: true, minLength: 3 },
@@ -7,6 +7,5 @@ const Users = mongoose.model('User' , {
 	password: { type:String,required:true},
 	salt: { type: String,required:true} ,
 	
-})
-
-module.exports = Users
+});
+module.exports = Users ;

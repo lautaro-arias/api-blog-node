@@ -1,4 +1,4 @@
-const mongoose = require('mongoose') 
+const mongoose = require('mongoose') ;
 
 
 const Publications = mongoose.model('Publication', {
@@ -9,12 +9,6 @@ const Publications = mongoose.model('Publication', {
 	description: { type: String, required: true, minLength: 1 },
 	email: { type: String, required: true, minLength: 1 },
 	file:{}
-	//time:{}
+});
 
-
-
-	
-	
-})
-
-module.exports = Publications
+module.exports = Publications;
